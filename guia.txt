@@ -8,3 +8,6 @@ JWT_SECRET= palabraSECRETA
 installar :
 npm i bcrypt
 npm i jsonwebtoken
+
+
+439 new password
