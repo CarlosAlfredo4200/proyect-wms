@@ -4,8 +4,9 @@ import generarJWT from "../helpers/generarJWT.js";
 import UserModel from "../models/userModel.js";
 // import { emailRegistro ,emailOlvidePassword } from '../modells/helpers/email.js'
 
-const registrar = async (req, res) => {
 
+
+const registrar = async (req, res) => {
 
     //   -------------- Evitar registros duplicados -----------
 
@@ -42,18 +43,18 @@ const autenticar = async (req, res) => {
 
     //-------- Comprobar si usuario existe -----------
     const usuario = await UserModel.findOne({ email });
-
-
+    
     if (!usuario) {
         const error = new Error("El usuario no existe!!!");
         return res.status(404).json({ msg: error.message });
     }
 
     //-------- Comprobar si usuario esta confirmado -----------
-    console.log(usuario);
+     
     if (!usuario.confirmed) {
         const error = new Error("Tu cuenta no ha sido confirmada!!!");
         return res.status(403).json({ msg: error.message });
+
     }
 
     //   //-------- Comprobar password -----------
@@ -65,6 +66,7 @@ const autenticar = async (req, res) => {
             email: usuario.email,
             token: generarJWT(usuario._id),
         });
+       
     } else {
         const error = new Error("El password es incorrecto!!!");
         return res.status(403).json({ msg: error.message });
@@ -107,7 +109,7 @@ const olvidarPasword = async (req, res) => {
   }
   try {
     usuario.token = generarId();
-    await usuario.save();
+    await usuario.save();//guardar en la base de datos
 
 
 //    // --- Enviar el email ---
@@ -173,13 +175,14 @@ const nuevoPassword = async (req, res) => {
 
 // //---------------------------------- Perfin usuario ---------------------------------
 
-// const perfil = async (req, res) => {
+const perfil = async (req, res) => {
 
-//   const { usuario } = req; //Leyendo del servidor
+  const { UserModel } = req; //Leyendo del servidor
 
-//   res.json(usuario)
+  res.json(UserModel);
+  
 
-// };
+};
 
 
 export {
@@ -189,5 +192,5 @@ export {
     olvidarPasword, 
     comprobarToken, 
     nuevoPassword, 
-    // perfil 
+    perfil 
 };

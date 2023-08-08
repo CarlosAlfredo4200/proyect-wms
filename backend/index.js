@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from 'dotenv'
 import connectionDB from "./config/db.js";
  
-import usersRoutes from './routes/userRoutes.js'
+import usersRoutes from './routes/userRoutes.js';
+import proyectoRoutes from "./routes/proyectoRoutes.js";
+import tareaRoutes from "./routes/tareaRoutes.js";
 const app = express();
 
 app.use(express.json());//Reemplaza bodyParser
@@ -15,7 +17,9 @@ connectionDB();
 
 
 // Routing
-app.use('/api/users', usersRoutes)
+app.use('/api/users', usersRoutes);
+app.use("/api/proyectos", proyectoRoutes);
+app.use("/api/tareas", tareaRoutes);
 
 const PORT = process.env.PORT || 5000;
 
