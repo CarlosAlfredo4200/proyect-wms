@@ -1,0 +1,29 @@
+DB_URL=mongodb+srv://alfredomontoyacorreo2:juanma4200@cluster0.9orxbzp.mongodb.net/wms_project?retryWrites=true&w=majority
+PORT=4000
+
+JWT_SECRET= palabraSECRETA
+
+FRONTEND_URL=http://localhost:5173
+
+
+
+
+
+installar :
+npm i bcrypt
+npm i jsonwebtoken
+
+npm i nodemailer // para el envio de emails
+Abrir cuenta https://mailtrap.io/ para probar envio de emails
+
+
+
+439 new password
+
+
+HOST=sandbox.smtp.mailtrap.io
+PORTMILTRAP= 2525
+USERNAME= ddefcde29631f3
+PASSWORD= e84e27d43f38d7
+AUTH= PLAIN, LOGIN and CRAM-MD5
+TLS= Optional (STARTTLS on all ports)

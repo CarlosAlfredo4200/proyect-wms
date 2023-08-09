@@ -2,7 +2,7 @@
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
 import UserModel from "../models/userModel.js";
-// import { emailRegistro ,emailOlvidePassword } from '../modells/helpers/email.js'
+import { emailRegistro , emailOlvidePassword } from '../helpers/email.js'
 
 
 
@@ -21,15 +21,15 @@ const registrar = async (req, res) => {
         const usuario = new UserModel(req.body);
         usuario.token = generarId();
         const usuarioAlmacenado = await usuario.save();
-        res.json(usuarioAlmacenado);
+        // res.json(usuarioAlmacenado);
 
-        //  // Enviar email de confirmación
-        //   emailRegistro({
-        //   email: usuario.email,
-        //   nombre: usuario.nombre, 
-        //   token: usuario.token
-        // })
-        // res.json({msg:'Usuario creado correctamente!!!. Revia tu email para confirmar tu cuenta.'});
+         // Enviar email de confirmación
+          emailRegistro({
+          email: usuario.email,
+          nombre: usuario.name, 
+          token: usuario.token
+        })
+        res.json({msg:'Usuario creado correctamente!!!. Revia tu email para confirmar tu cuenta.'});
     } catch (error) {
         console.log(error);
     }
@@ -103,6 +103,7 @@ const olvidarPasword = async (req, res) => {
 
   //-------- Comprobar si usuario existe -----------
   const usuario = await UserModel.findOne({ email });
+  console.log(usuario);
   if (!usuario) {
     const error = new Error("El usuario no existe!!!");
     return res.status(404).json({ msg: error.message });
@@ -113,11 +114,11 @@ const olvidarPasword = async (req, res) => {
 
 
 //    // --- Enviar el email ---
-//     emailOlvidePassword({
-//       email: usuario.email,
-//       name: usuario.name, 
-//       token: usuario.token,
-//     })
+    emailOlvidePassword({
+      email: usuario.email,
+      nombre: usuario.name, 
+      token: usuario.token,
+    })
      res.json({ msg: "Hemos enviado un email con las instrucciones" });
   } catch (error) {
     console.log(error);
