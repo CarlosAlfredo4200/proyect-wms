@@ -1,0 +1,13 @@
+VITE_BACKEND_URL= http://localhost:3000
+
+npm i socket.io-client
+
+tailwindcss
+postcss  
+autoprefixer
+
+inicializarlo
+npx tailwindcss init -p
+
+npm i caniuse-lite
+npm i axios

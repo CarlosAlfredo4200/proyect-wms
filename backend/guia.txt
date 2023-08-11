@@ -16,8 +16,8 @@ npm i jsonwebtoken
 npm i nodemailer // para el envio de emails
 Abrir cuenta https://mailtrap.io/ para probar envio de emails
 
-
-
+npm i @headlessui/react    icon tailwind
+npm i socket.io
 439 new password
 
 

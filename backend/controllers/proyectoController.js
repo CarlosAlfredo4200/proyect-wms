@@ -1,11 +1,11 @@
 import Proyecto from "../models/Proyecto.js";
-import UserModel from "../models/userModel.js";
+import Usuario from "../models/Usuario.js";
 
 const obtenerProyectos = async (req, res) => {
   const proyectos = await Proyecto.find({
     $or: [
-      { colaboradores: { $in: req.UserModel } },
-      { creador: { $in: req.UserModel } },
+      { colaboradores: { $in: req.usuario } },
+      { creador: { $in: req.usuario } },
     ],
   }).select("-tareas");
   res.json(proyectos);
@@ -13,7 +13,7 @@ const obtenerProyectos = async (req, res) => {
 
 const nuevoProyecto = async (req, res) => {
   const proyecto = new Proyecto(req.body);
-  proyecto.creador = req.UserModel._id;
+  proyecto.creador = req.usuario._id;
 
   try {
     const proyectoAlmacenado = await proyecto.save();
@@ -39,9 +39,9 @@ const obtenerProyecto = async (req, res) => {
   }
 
   if (
-    proyecto.creador.toString() !== req.UserModel._id.toString() &&
+    proyecto.creador.toString() !== req.usuario._id.toString() &&
     !proyecto.colaboradores.some(
-      (colaborador) => colaborador._id.toString() === req.UserModel._id.toString()
+      (colaborador) => colaborador._id.toString() === req.usuario._id.toString()
     )
   ) {
     const error = new Error("Acción No Válida");
@@ -61,7 +61,7 @@ const editarProyecto = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (proyecto.creador.toString() !== req.UserModel._id.toString()) {
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
     const error = new Error("Acción No Válida");
     return res.status(401).json({ msg: error.message });
   }
@@ -89,7 +89,7 @@ const eliminarProyecto = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (proyecto.creador.toString() !== req.UserModel._id.toString()) {
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
     const error = new Error("Acción No Válida");
     return res.status(401).json({ msg: error.message });
   }
@@ -104,8 +104,8 @@ const eliminarProyecto = async (req, res) => {
 
 const buscarColaborador = async (req, res) => {
   const { email } = req.body;
-  const usuario = await UserModel.findOne({ email }).select(
-    "-confirmed -createdAt -password -token -updatedAt -__v "
+  const usuario = await Usuario.findOne({ email }).select(
+    "-confirmado -createdAt -password -token -updatedAt -__v "
   );
 
   if (!usuario) {
@@ -124,14 +124,14 @@ const agregarColaborador = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (proyecto.creador.toString() !== req.UserModel._id.toString()) {
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
     const error = new Error("Acción no válida");
     return res.status(404).json({ msg: error.message });
   }
 
   const { email } = req.body;
-  const usuario = await UserModel.findOne({ email }).select(
-    "-confirmed -createdAt -password -token -updatedAt -__v "
+  const usuario = await Usuario.findOne({ email }).select(
+    "-confirmado -createdAt -password -token -updatedAt -__v "
   );
 
   if (!usuario) {
@@ -165,7 +165,7 @@ const eliminarColaborador = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (proyecto.creador.toString() !== req.UserModel._id.toString()) {
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
     const error = new Error("Acción no válida");
     return res.status(404).json({ msg: error.message });
   }

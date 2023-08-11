@@ -23,7 +23,7 @@ const proyectosSchema = mongoose.Schema(
     },
     creador: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserModel",
+      ref: "Usuario",
     },
     tareas: [
       {
@@ -34,7 +34,7 @@ const proyectosSchema = mongoose.Schema(
     colaboradores: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "UserModel",
+        ref: "Usuario",
       },
     ],
   },
